@@ -1709,6 +1709,47 @@ int rtlsdr_close(rtlsdr_dev_t *dev)
 	return 0;
 }
 
+int rtlsdr_close_bt(rtlsdr_dev_t *dev)
+{
+	if (!dev)
+		return -1;
+	rtlsdr_set_i2c_repeater(dev, 0);
+
+	if(!dev->dev_lost) {
+		/* block until all async operations have been completed (if any) */
+		while (RTLSDR_INACTIVE != dev->async_status) {
+#ifdef _WIN32
+			Sleep(1);
+#else
+			usleep(1000);
+#endif
+		}
+
+		rtlsdr_deinit_baseband(dev);
+	}
+
+	libusb_release_interface(dev->devh, 0);
+
+#ifdef DETACH_KERNEL_DRIVER
+	if (dev->driver_active) {
+		if (!libusb_attach_kernel_driver(dev->devh, 0))
+			fprintf(stderr, "Reattached kernel driver\n");
+		else
+			fprintf(stderr, "Reattaching kernel driver failed!\n");
+	}
+#endif
+
+	libusb_close(dev->devh);
+
+	libusb_exit(dev->ctx);
+
+	free(dev);
+
+	return 0;
+}
+
+
+
 int rtlsdr_reset_buffer(rtlsdr_dev_t *dev)
 {
 	if (!dev)
