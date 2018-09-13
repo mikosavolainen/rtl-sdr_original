@@ -64,6 +64,8 @@ RTLSDR_API int rtlsdr_open(rtlsdr_dev_t **dev, uint32_t index);
 
 RTLSDR_API int rtlsdr_close(rtlsdr_dev_t *dev);
 
+RTLSDR_API int rtlsdr_close_bt(rtlsdr_dev_t *dev);
+
 /* configuration functions */
 
 /*!
