@@ -668,7 +668,7 @@ static int r82xx_set_pll(struct r82xx_priv *priv, uint32_t freq)
  if(priv->disable_dither)
    val |= 0x10;
 	
- rc = r82xx_write_reg(priv, 0x12, val, 0x18);	
+ rc = r82xx_write_reg_mask(priv, 0x12, val, 0x18);	
 
   /* Set the rough VCO frequency */
   rc = r82xx_write_reg(priv, 0x14, (uint8_t) (ni + (si << 6)));
