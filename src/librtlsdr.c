@@ -308,6 +308,8 @@ typedef struct rtlsdr_dongle {
  * Please add your device here and send a patch to osmocom-sdr@lists.osmocom.org
  */
 static rtlsdr_dongle_t known_devices[] = {
+	{ 0xffff, 0xffff, "RTLSDR with fried eeprom" }, 
+	{ 0x0000, 0x0000, "RTLSDR with fried eeprom 2" },
 	{ 0x0bda, 0x2832, "Generic RTL2832U" },
 	{ 0x0bda, 0x2838, "Generic RTL2832U OEM" },
 	{ 0x0413, 0x6680, "DigitalNow Quad DVB-T PCI-E card" },
